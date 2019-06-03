@@ -18,7 +18,7 @@ def red_or_black(cards, guess):
 
 
 trials = 0
-max_trials = 10000
+max_trials = 1000000
 
 # choosing randomly
 rand_correct = 0
