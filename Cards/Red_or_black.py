@@ -17,7 +17,7 @@ def red_or_black(cards, guess):
 
 
 trials = 0
-max_trials = 10000
+max_trials = 100000
 
 # choosing randomly
 rand_correct = 0
@@ -52,3 +52,12 @@ while trials <= max_trials:
     trials += 1
 
 print(strategic_correct)
+
+# analysis
+
+# percent correct
+rand_percent = rand_correct / max_trials * 100
+strategic_percent = strategic_correct / max_trials * 100
+
+print(f'{round(rand_percent, 3)}% of random guesses where correct')
+print(f'{round(strategic_percent, 3)}% of strategic guesses where correct')
