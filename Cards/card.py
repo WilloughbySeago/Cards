@@ -12,5 +12,3 @@ class Card:
             self.colour = 'black'
         else:
             self.colour = 'red'
-
-# test
