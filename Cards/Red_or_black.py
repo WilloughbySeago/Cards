@@ -24,6 +24,7 @@ rand_correct = 0
 while trials <= max_trials:
     d = Deck()
     random.shuffle(d.deck)
+    d.deck.pop(0)
     r = random.randint(0, 2)
     if r == 0:
         rand_guess = 'red'
@@ -34,3 +35,20 @@ while trials <= max_trials:
     trials += 1
 
 print(rand_correct)
+
+# choose opposite of first card's colour
+trials = 0
+strategic_correct = 0
+while trials <= max_trials:
+    d = Deck()
+    random.shuffle(d.deck)
+    first_card = d.deck.pop(0)
+    if first_card.colour == 'red':
+        strategic_guess = 'black'
+    else:
+        strategic_guess = 'red'
+    if red_or_black(d, strategic_guess):
+        strategic_correct += 1
+    trials += 1
+
+print(strategic_correct)
