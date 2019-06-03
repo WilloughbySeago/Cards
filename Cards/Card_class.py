@@ -12,3 +12,6 @@ class Card:
             self.colour = 'black'
         else:
             self.colour = 'red'
+
+    def show(self):
+        print(self.value, self.suit)
