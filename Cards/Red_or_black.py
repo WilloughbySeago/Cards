@@ -1,5 +1,6 @@
 from Cards.Deck_class import *
 import random
+from scipy.stats import binom_test
 
 
 def red_or_black(cards, guess):
@@ -17,7 +18,7 @@ def red_or_black(cards, guess):
 
 
 trials = 0
-max_trials = 100000
+max_trials = 10000
 
 # choosing randomly
 rand_correct = 0
@@ -61,3 +62,13 @@ strategic_percent = strategic_correct / max_trials * 100
 
 print(f'{round(rand_percent, 3)}% of random guesses where correct')
 print(f'{round(strategic_percent, 3)}% of strategic guesses where correct')
+
+# statistical significance test
+p = 0.05  # set significance level
+prob = binom_test(strategic_correct, max_trials, 0.5, 'greater')  # calculate prob given null hypothesis
+if p < prob:
+    print(f'{round(prob, 4) * 100}% is the probability that this would occur with the null hypothesis '
+          + f'so we accept the null hypothesis')
+else:
+    print(f'{round(prob, 4) * 100}% is the probability that this would occur with the null hypothesis '
+          + f'so we reject the null hypothesis')
