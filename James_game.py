@@ -54,3 +54,24 @@ def round2(cards, guess, previous_card):
         return False, card
     elif guess == 'lower' and card_val > prev_val:
         return False, card
+
+
+def round3(cards, guess, card1, card2):
+    card = cards.deck.pop(0)
+    card_val = str_to_int(card)
+    card1_val = str_to_int(card1)
+    card2_val = str_to_int(card2)
+    if card_val > card1_val and card_val > card2_val:
+        in_out = 'out'
+    elif card_val < card1_val and card_val < card2_val:
+        in_out = 'out'
+    elif card1_val < card_val < card2_val:
+        in_out = 'in'
+    elif card2_val < card_val < card1_val:
+        in_out = 'in'
+    else:
+        return round3(cards, guess, card1, card2)
+    if guess == in_out:
+        return True, card
+    else:
+        return False, card
