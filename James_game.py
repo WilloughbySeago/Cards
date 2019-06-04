@@ -3,6 +3,21 @@ import string
 import random
 
 
+def str_to_int(card):
+    val = card.value
+    if val in string.digits or val == '10':
+        val = int(val)
+    elif val == 'j':
+        val = 11
+    elif val == 'q':
+        val = 12
+    elif val == 'k':
+        val = 13
+    else:
+        val = 14
+    return val
+
+
 def round1(cards, guess):
     """
     This function draws a card and then compares the colour to the guess
@@ -39,18 +54,3 @@ def round2(cards, guess, previous_card):
         return False, card
     elif guess == 'lower' and card_val > prev_val:
         return False, card
-
-
-def str_to_int(card):
-    val = card.value
-    if val in string.digits or val == '10':
-        val = int(val)
-    elif val == 'j':
-        val = 11
-    elif val == 'q':
-        val = 12
-    elif val == 'k':
-        val = 13
-    else:
-        val = 14
-    return val
