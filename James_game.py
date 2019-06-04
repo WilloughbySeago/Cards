@@ -35,6 +35,10 @@ def round2(cards, guess, previous_card):
     elif card_val == prev_val:
         print('same card')
         return round2(cards, guess, previous_card)
+    elif guess == 'higher' and card_val < prev_val:
+        return False, card
+    elif guess == 'lower' and card_val > prev_val:
+        return False, card
 
 
 def str_to_int(card):
@@ -50,4 +54,3 @@ def str_to_int(card):
     else:
         val = 14
     return val
-
