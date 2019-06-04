@@ -48,7 +48,6 @@ def round2(cards, guess, previous_card):
     elif guess == 'lower' and card_val < prev_val:
         return True, card
     elif card_val == prev_val:
-        print('same card')
         return round2(cards, guess, previous_card)
     elif guess == 'higher' and card_val < prev_val:
         return False, card
@@ -97,3 +96,28 @@ def round4(cards, guess):
         return True, card
     else:
         return False, card
+
+
+def attempt(cards):
+    result1 = round1(cards, 'red')
+    if result1[0]:
+        result2 = round2(cards, 'higher', result1[1])
+        if result2[0]:
+            result3 = round3(cards, 'out', result1[1], result2[1])
+            if result3[0]:
+                result4 = round4(cards, 's')
+                if result4[0]:
+                    return True
+    return False
+
+
+attempts = 0
+count = 0
+while attempts < 100000:
+    attempts += 1
+    d = Deck()
+    random.shuffle(d.deck)
+    if attempt(d):
+        count += 1
+print(count)
+print(count/100000 * 100)
