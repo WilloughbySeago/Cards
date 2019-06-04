@@ -1,3 +1,8 @@
+"""
+This is a program to see if there is a difference between picking red or black randomly
+or picking the opposite of the first card
+"""
+
 from Cards.Deck_class import *
 import random
 from scipy.stats import binom_test

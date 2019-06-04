@@ -1,3 +1,7 @@
+"""
+This is a class for playing cards, each Card object contains value, suit and colour
+"""
+
 class Card:
     def __init__(self, value, suit):
         """

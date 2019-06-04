@@ -1,11 +1,13 @@
-"""This is a program to work out the probabilities involved with the game 'F*** the Bus'
+"""
+This is a program to work out the probabilities involved with the game 'F*** the Bus'
 The rules of this game are simple:
 round 1 - guess red or black
 round 2 - guess higher or lower than the previous card
 round 3 - guess in or out of [1st card, 2nd card]
 round 4 - guess the suit
 If at any point you are wrong you must start from round 1 again
-and drink as many times as the round you where wrong on"""
+and drink as many times as the round you where wrong on
+"""
 
 from Cards.Deck_class import *
 import string
@@ -13,6 +15,13 @@ import random
 
 
 def get_val(card):
+    """
+    This function will return an int corresponding to the value of a card (ace is high)
+
+    a = 14, k = 13, q = 12, j = 11
+    :param card: Card
+    :return: int
+    """
     val = card.value
     if val in string.digits or val == '10':
         val = int(val)
@@ -108,6 +117,11 @@ def round4(cards, guess):
 
 
 def attempt(cards):
+    """
+    This is a function that will play a round of this game guessing randomly what the best move is
+    :param cards: Deck
+    :return: bool
+    """
     global drinks
     result1 = round1(cards, 'red')
     if result1[0]:
@@ -153,6 +167,11 @@ print(f'{round(drinks / max_attempts, 4)} drinks per attempt')
 
 
 def good_strategy(cards):
+    """
+    This is a function that will play a round of this game following optimal but non-card counting strategy
+    :param cards: Deck
+    :return: bool
+    """
     global drinks
     result1 = round1(cards, 'red')
     if result1[0]:

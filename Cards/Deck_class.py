@@ -1,3 +1,6 @@
+"""
+This is a class for a deck of cards that will create a deck of 52 cards
+"""
 from Cards.Card_class import *
 
 
