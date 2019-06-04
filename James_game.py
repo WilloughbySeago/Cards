@@ -1,3 +1,12 @@
+"""This is a program to work out the probabilities involved with the game 'F*** the Bus'
+The rules of this game are simple:
+round 1 - guess red or black
+round 2 - guess higher or lower than the previous card
+round 3 - guess in or out of [1st card, 2nd card]
+round 4 - guess the suit
+If at any point you are wrong you must start from round 1 again
+and drink as many times as the round you where wrong on"""
+
 from Cards.Deck_class import *
 import string
 import random
@@ -99,25 +108,43 @@ def round4(cards, guess):
 
 
 def attempt(cards):
+    global drinks
     result1 = round1(cards, 'red')
     if result1[0]:
         result2 = round2(cards, 'higher', result1[1])
-        if result2[0]:
-            result3 = round3(cards, 'out', result1[1], result2[1])
-            if result3[0]:
-                result4 = round4(cards, 's')
-                if result4[0]:
-                    return True
-    return False
+    else:
+        drinks += 1
+        return False
+    if result2[0]:
+        result3 = round3(cards, 'out', result1[1], result2[1])
+    else:
+        drinks += 2
+        return False
+    if result3[0]:
+        result4 = round4(cards, 's')
+    else:
+        drinks += 3
+        return False
+    if result4[0]:
+        return True
+    else:
+        drinks += 4
+        return False
 
 
 attempts = 0
 count = 0
-while attempts < 100000:
+drinks = 0
+max_attempts = 10000
+while attempts < max_attempts:
     attempts += 1
     d = Deck()
     random.shuffle(d.deck)
-    if attempt(d):
+    result = attempt(d)
+    if result:
         count += 1
 print(count)
-print(count/100000 * 100)
+print(count/max_attempts * 100)
+print(drinks)
+print(f'{round(drinks/(max_attempts - count), 4)} drinks per fail')
+print(f'{round(drinks/max_attempts, 4)} drinks per attempt')
