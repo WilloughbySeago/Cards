@@ -135,7 +135,8 @@ def attempt(cards):
 attempts = 0
 count = 0
 drinks = 0
-max_attempts = 10000
+max_attempts = 1000000
+
 while attempts < max_attempts:
     attempts += 1
     d = Deck()
@@ -143,8 +144,64 @@ while attempts < max_attempts:
     result = attempt(d)
     if result:
         count += 1
+
 print(count)
-print(count/max_attempts * 100)
+print(count / max_attempts * 100)
 print(drinks)
-print(f'{round(drinks/(max_attempts - count), 4)} drinks per fail')
-print(f'{round(drinks/max_attempts, 4)} drinks per attempt')
+print(f'{round(drinks / (max_attempts - count), 4)} drinks per fail')
+print(f'{round(drinks / max_attempts, 4)} drinks per attempt')
+
+
+def good_strategy(cards):
+    global drinks
+    result1 = round1(cards, 'red')
+    if result1[0]:
+        card1 = result1[1]
+        if get_val(card1) >= 8:
+            high_low_guess = 'lower'
+        else:
+            high_low_guess = 'higher'
+        result2 = round2(cards, high_low_guess, card1)
+    else:
+        drinks += 1
+        return False
+    if result2[0]:
+        card2 = result2[1]
+        cards_in_range = abs(get_val(card1) - get_val(card2)) - 1
+        if cards_in_range >= 6:
+            in_out_guess = 'in'
+        else:
+            in_out_guess = 'out'
+        result3 = round3(cards, in_out_guess, card1, card2)
+    else:
+        drinks += 2
+        return False
+    if result3[0]:
+        result4 = round4(cards, 's')
+    else:
+        drinks += 3
+        return False
+    if result4[0]:
+        return True
+    else:
+        drinks += 4
+        return False
+
+
+attempts = 0
+drinks = 0
+count = 0
+
+while attempts < max_attempts:
+    attempts += 1
+    d = Deck()
+    random.shuffle(d.deck)
+    result = attempt(d)
+    if result:
+        count += 1
+
+print(count)
+print(count / max_attempts * 100)
+print(drinks)
+print(f'{round(drinks / (max_attempts - count), 4)} drinks per fail')
+print(f'{round(drinks / max_attempts, 4)} drinks per attempt')
