@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tocloft}
+\usepackage{titlesec}
+\renewcommand{\cftdot}{.}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\date{5\(^\text{th}\) June 2019}
+\author{Willoughby Seago}
+\title{A Numerical Solution To The Optimal Solution To Guessing Playing Card Colour}
+\begin{document}
+	\maketitle
+	\begin{abstract}
+		We wanted to calculate whether there was a better solution than randomly guessing the colour of the next card if the colour of the first card was already known. We have discovered that guessing the opposite colour to the first card is better to a statistically significant level \((p=0.05)\).
+	\end{abstract}
+    \hspace{2em}
+    \tableofcontents
+    \section*{Introduction}
+    \addcontentsline{toc}{section}{Introduction}
+    The question to be answered is:
+    
+    ``Is there a significant difference between guessing the colour of a card randomly and predicting the opposite colour to the previously revealed card"
+    
+    We set about answering this question numerically.
+    \section{Methodology}
+    A program\footnote{\href{https://github.com/WilloughbySeago/Cards}{Source code on github.com - }\url{https://github.com/WilloughbySeago/Cards}} was written that would create a deck of cards, shuffle, draw the first card and then guess the colour of the next card as the opposite of the colour of the first card.
+    \section{Results}
+    The program was set to run one thousand repeats and guess a million cards each time
+    \section{Analysis}
+    The mean number of correct guesses out of one million was: % fill in
+    
+    The standard deviation is: % fill in
+    
+    The null hypothesis \(\mathrm{H}_0\) is: 
+    
+    The probability of guessing correctly when applying the opposite colour technique is greater than 0.5
+    
+    We tested against this at a 5\% significance level comparing to a binomial distribution \(p=0.5\), \(n=1000\).
+    The probability that the mean would be as it is or greater is % fill in.
+    This is less than the significance level so we reject the null hypothesis.
+    
+    % put the histogram here
+    
+    \section*{Conclusion}
+    \addcontentsline{toc}{section}{Conclusion}
+    We can conclude at the opposite colour technique is better at a significance level of \(p=0.05\)
+\end{document}
