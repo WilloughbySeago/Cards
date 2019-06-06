@@ -116,63 +116,43 @@ def round4(cards, guess):
         return False, card
 
 
-def attempt(cards):
+def attempt(cards, drinks):
     """
     This is a function that will play a round of this game guessing randomly what the best move is
     :param cards: Deck
+    :param drinks: int
     :return: bool
     """
-    global drinks
     result1 = round1(cards, 'red')
     if result1[0]:
         result2 = round2(cards, 'higher', result1[1])
     else:
         drinks += 1
-        return False
+        return False, drinks
     if result2[0]:
         result3 = round3(cards, 'out', result1[1], result2[1])
     else:
         drinks += 2
-        return False
+        return False, drinks
     if result3[0]:
         result4 = round4(cards, 's')
     else:
         drinks += 3
-        return False
+        return False, drinks
     if result4[0]:
-        return True
+        return True, drinks
     else:
         drinks += 4
-        return False
+        return False, drinks
 
 
-attempts = 0
-count = 0
-drinks = 0
-max_attempts = 1000000
-
-while attempts < max_attempts:
-    attempts += 1
-    d = Deck()
-    random.shuffle(d.deck)
-    result = attempt(d)
-    if result:
-        count += 1
-
-print(count)
-print(count / max_attempts * 100)
-print(drinks)
-print(f'{round(drinks / (max_attempts - count), 4)} drinks per fail')
-print(f'{round(drinks / max_attempts, 4)} drinks per attempt')
-
-
-def good_strategy(cards):
+def good_strategy(cards, drinks):
     """
     This is a function that will play a round of this game following optimal but non-card counting strategy
     :param cards: Deck
+    :param drinks: int
     :return: bool
     """
-    global drinks
     result1 = round1(cards, 'red')
     if result1[0]:
         card1 = result1[1]
@@ -183,7 +163,7 @@ def good_strategy(cards):
         result2 = round2(cards, high_low_guess, card1)
     else:
         drinks += 1
-        return False
+        return False, drinks
     if result2[0]:
         card2 = result2[1]
         cards_in_range = abs(get_val(card1) - get_val(card2)) - 1
@@ -194,33 +174,92 @@ def good_strategy(cards):
         result3 = round3(cards, in_out_guess, card1, card2)
     else:
         drinks += 2
-        return False
+        return False, drinks
     if result3[0]:
         result4 = round4(cards, 's')
     else:
         drinks += 3
-        return False
+        return False, drinks
     if result4[0]:
-        return True
+        return True, drinks
     else:
         drinks += 4
-        return False
+        return False, drinks
 
 
-attempts = 0
-drinks = 0
-count = 0
+# attempts = 0
+# count = 0
+# drinks = 0
+# max_attempts = 1000
+#
+# while attempts < max_attempts:
+#     attempts += 1
+#     d = Deck()
+#     random.shuffle(d.deck)
+#     result = attempt(d)
+#     if result:
+#         count += 1
+#
+# print('With Random Guessing:')
+# print(f'Successes: {count}')
+# print(f'Percent success: {count / max_attempts * 100}')
+# print(f'Total drinks {drinks}')
+# print(f'{round(drinks / (max_attempts - count), 4)} drinks per fail')
+# print(f'{round(drinks / max_attempts, 4)} drinks per attempt')
 
-while attempts < max_attempts:
-    attempts += 1
-    d = Deck()
-    random.shuffle(d.deck)
-    result = attempt(d)
-    if result:
-        count += 1
 
-print(count)
-print(count / max_attempts * 100)
-print(drinks)
-print(f'{round(drinks / (max_attempts - count), 4)} drinks per fail')
-print(f'{round(drinks / max_attempts, 4)} drinks per attempt')
+# max_attempts = 1000
+# attempts = 0
+# drinks = 0
+# count = 0
+#
+# while attempts < max_attempts:
+#     attempts += 1
+#     d = Deck()
+#     random.shuffle(d.deck)
+#     result = good_strategy(d)
+#     if result:
+#         count += 1
+
+# print('')
+# print('')
+# print('With Good Strategy(TM):')
+# print(f'Successes: {count}')
+# print(f'Percent success: {count / max_attempts * 100}')
+# print(f'Total drinks {drinks}')
+# print(f'{round(drinks / (max_attempts - count), 4)} drinks per fail')
+# print(f'{round(drinks / max_attempts, 4)} drinks per attempt')
+
+
+def play_1_round(mode, max_attempts):
+    """
+    This function will play one round of the game
+    :param mode: 'rand' or 'good'
+    :param max_attempts: int
+    :return: dict
+    """
+    attempts = 0
+    count = 0
+    drinks = 0
+    while attempts < max_attempts:
+        attempts += 1
+        d = Deck()
+        random.shuffle(d.deck)
+        if mode == 'rand':
+            result = attempt(d, drinks)
+        elif mode == 'good':
+            result = good_strategy(d, drinks)
+        drinks = result[1]
+        if result[0]:
+            count += 1
+    return {'Mode': mode,
+            'Successes': count,
+            '%': count / max_attempts * 100,
+            'Drinks': drinks,
+            'Drinks per fail': round(drinks / (max_attempts - count), 4),
+            'Drinks per attempt': round(drinks / max_attempts, 4)}
+
+
+print(play_1_round('rand', 1000))
+print('')
+print(play_1_round('good', 1000))
