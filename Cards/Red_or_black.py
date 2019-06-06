@@ -23,7 +23,7 @@ def red_or_black(cards, guess):
 
 
 trials = 0
-max_trials = 1000000
+max_trials = 1000000  # how many times to attempt a guess
 
 # choosing randomly
 rand_correct = 0
@@ -32,6 +32,7 @@ while trials <= max_trials:
     random.shuffle(d.deck)
     d.deck.pop(0)
     r = random.randint(0, 2)
+    # guess random colour
     if r == 0:
         rand_guess = 'red'
     else:
@@ -39,6 +40,7 @@ while trials <= max_trials:
     if red_or_black(d, rand_guess):
         rand_correct += 1
     trials += 1
+    del d
 
 print(rand_correct)
 
@@ -49,6 +51,7 @@ while trials <= max_trials:
     d = Deck()
     random.shuffle(d.deck)
     first_card = d.deck.pop(0)
+    # choose opposite colour to the first card
     if first_card.colour == 'red':
         strategic_guess = 'black'
     else:
@@ -56,6 +59,7 @@ while trials <= max_trials:
     if red_or_black(d, strategic_guess):
         strategic_correct += 1
     trials += 1
+    del d
 
 print(strategic_correct)
 
