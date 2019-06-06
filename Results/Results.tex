@@ -1,9 +1,12 @@
 \documentclass{article}
 \usepackage{amsmath}
 \usepackage{parskip}
-\usepackage[hidelinks]{hyperref}
 \usepackage{tocloft}
 \usepackage{titlesec}
+\usepackage{pgf}
+\usepackage{csquotes}
+\usepackage{siunitx}
+\usepackage[hidelinks]{hyperref}
 \renewcommand{\cftdot}{.}
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \date{5\(^\text{th}\) June 2019}
@@ -17,6 +20,7 @@
 	\end{abstract}
     \hspace{2em}
     \tableofcontents
+    \newpage
     \section*{Introduction}
     \addcontentsline{toc}{section}{Introduction}
     The question to be answered is:
@@ -28,18 +32,32 @@
     A program\footnote{\href{https://github.com/WilloughbySeago/Cards/tree/master/Cards}{Source code on github.com - }\url{https://github.com/WilloughbySeago/Cards/tree/master/Cards}} was written that would create a deck of cards, shuffle, draw the first card and then guess the colour of the next card as the opposite of the colour of the first card.
     \section{Results}
     The program was set to run one thousand repeats and guess a million cards each time.
-    We collected the results in a csv file\footnote{\href{https://github.com/WilloughbySeago/Cards/tree/master/Results/results.csv}{csv on github.com} - \url{https://github.com/WilloughbySeago/Cards/tree/master/Results/results.csv}}
-    \section{Analysis}
-    The mean number of correct guesses out of one million was: % fill in
+    The results are available in a csv file file\footnote{\href{https://github.com/WilloughbySeago/Cards/tree/master/Results/results.csv}{csv on github.com} - \url{https://github.com/WilloughbySeago/Cards/tree/master/Results/results.csv}}
     
-    The standard deviation is: % fill in
+    \begin{figure}[h]
+        \centering
+        \scalebox{.4}{\input{Histogram.pgf}}
+        \caption{A histogram of results with class width 100}
+    \end{figure}
+    \section{Analysis}
+    The mean number of correct guesses out of one million was: 509803 to the nearest integer
+    
+    The standard deviation is: 497.29 to 5 significant figures
     
     The null hypothesis \(\mathrm{H}_0\) is: 
     
-    The probability of guessing correctly when applying the opposite colour technique is greater than 0.5
+    \begin{displayquote}
+        The probability of guessing correctly when applying the opposite colour technique is 0.5
+    \end{displayquote}
+    
+    The alternative hypothesis \(\mathrm{H}_1\) is:
+    
+    \begin{displayquote}
+        The probability of guessing correctly when applying the opposite colour technique is greater than 0.5
+    \end{displayquote}
     
     We tested against this at a 5\% significance level comparing to a binomial distribution \(p=0.5\), \(n=1000\).
-    The probability that the mean would be as it is or greater is % fill in.
+    The probability that the mean would be as it is or greater is of the order \num{e-86}.
     This is less than the significance level so we reject the null hypothesis.
     
     % put the histogram here
