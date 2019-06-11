@@ -12,6 +12,7 @@ and drink as many times as the round you where wrong on
 from Cards.Deck_class import *
 import string
 import random
+import numpy as np
 
 
 def get_val(card):
@@ -187,53 +188,9 @@ def good_strategy(cards, drinks):
         return False, drinks
 
 
-# attempts = 0
-# count = 0
-# drinks = 0
-# max_attempts = 1000
-#
-# while attempts < max_attempts:
-#     attempts += 1
-#     d = Deck()
-#     random.shuffle(d.deck)
-#     result = attempt(d)
-#     if result:
-#         count += 1
-#
-# print('With Random Guessing:')
-# print(f'Successes: {count}')
-# print(f'Percent success: {count / max_attempts * 100}')
-# print(f'Total drinks {drinks}')
-# print(f'{round(drinks / (max_attempts - count), 4)} drinks per fail')
-# print(f'{round(drinks / max_attempts, 4)} drinks per attempt')
-
-
-# max_attempts = 1000
-# attempts = 0
-# drinks = 0
-# count = 0
-#
-# while attempts < max_attempts:
-#     attempts += 1
-#     d = Deck()
-#     random.shuffle(d.deck)
-#     result = good_strategy(d)
-#     if result:
-#         count += 1
-
-# print('')
-# print('')
-# print('With Good Strategy(TM):')
-# print(f'Successes: {count}')
-# print(f'Percent success: {count / max_attempts * 100}')
-# print(f'Total drinks {drinks}')
-# print(f'{round(drinks / (max_attempts - count), 4)} drinks per fail')
-# print(f'{round(drinks / max_attempts, 4)} drinks per attempt')
-
-
 def play_1_round(mode, max_attempts):
     """
-    This function will play one round of the game
+    This function will play one round of the game max_attempts number of times
     :param mode: 'rand' or 'good'
     :param max_attempts: int
     :return: dict
@@ -260,6 +217,59 @@ def play_1_round(mode, max_attempts):
             'Drinks per attempt': round(drinks / max_attempts, 4)}
 
 
-print(play_1_round('rand', 1000))
+# print(play_1_round('rand', 10000))
+# print('')
+# print(play_1_round('good', 10000))
+
+
+def play_to_win(mode):
+    succeeded = False
+    drinks = 0
+    attempts = 0
+    while not succeeded:
+        d = Deck()
+        random.shuffle(d.deck)
+        if mode == 'good':
+            succeeded, drinks = good_strategy(d, drinks)
+        elif mode == 'guess':
+            succeeded, drinks = attempt(d, drinks)
+        attempts += 1
+        del d
+    return attempts, drinks
+
+
+total_repeats = 1000
+current_repeat = 0
+good_results = []
+guess_results = []
+while current_repeat < total_repeats:
+    good_results.append(play_to_win('good'))
+    guess_results.append(play_to_win('guess'))
+    current_repeat += 1
+
+good_results_attempts = []
+good_results_drinks = []
+for i in good_results:
+    good_results_attempts.append(i[0])
+    good_results_drinks.append(i[1])
+
+guess_results_attempts = []
+guess_results_drinks = []
+for i in guess_results:
+    guess_results_attempts.append(i[0])
+    guess_results_drinks.append(i[1])
+
+
+def analyse(data, title):
+    print(title)
+    print(f'Mean = {np.mean(data)}')
+    print(f'Standard deviation = {np.std(data)}')
+
+
+print('Random Strategy:')
+analyse(guess_results_attempts, 'Attempts before success:')
+analyse(guess_results_drinks, 'Drinks before success:')
 print('')
-print(play_1_round('good', 1000))
+print('Optimal Strategy:')
+analyse(good_results_attempts, 'Attempts before success:')
+analyse(good_results_drinks, 'Drinks before success:')
